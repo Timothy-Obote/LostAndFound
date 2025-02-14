@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lost and Found Item Submission</title>
+</head>
+<body> 
+    <h2>Lost and Found Item Submission Form</h2>
+    <form action="/submit_item" method="post" enctype="multipart/form-data">
+        <label for="itemStatus">Item Status:</label><br>
+        <input type="radio" id="lost" name="itemStatus" value="lost" required>
+        <label for="lost">Lost</label><br>
+        <input type="radio" id="found" name="itemStatus" value="found" required>
+        <label for="found">Found</label><br><br>
+
+        <label for="itemName">Item Name:</label><br>
+        <input type="text" id="itemName" name="itemName" required><br><br>
+
+        <label for="location">Location:</label><br>
+        <input type="text" id="location" name="location" required><br><br>
+
+        <label for="dateTime">Date and Time:</label><br>
+        <input type="datetime-local" id="dateTime" name="dateTime" required><br><br>
+
+        <label for="description">Description:</label><br>
+        <textarea id="description" name="description" rows="4" cols="50" required></textarea><br><br>
+
+        <label for="itemImage">Upload Image:</label><br>
+        <input type="file" id="itemImage" name="itemImage" accept="image/*"><br><br>
+
+        <input type="submit" value="Submit">
+    </form>
+</body>
+</html>
