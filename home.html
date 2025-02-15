@@ -5,7 +5,41 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel = "stylesheet" href="style.css">
+    <script>
+        document.querySelector('form').addEventListener('submit', function(e) {
+            e.preventDefault(); // Prevent the default form submission
+        
+            const formData = new FormData(this);
+            
+            fetch('upload.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.imageUrl) {
+                    const displaySection = document.getElementById('lostItemsDisplay');
+                    const img = document.createElement('img');
+                    img.src = data.imageUrl;
+                    img.alt = "Lost item image";
+                    displaySection.appendChild(img);
+                } else if (data.errors) {
+                    alert("Error: " + data.errors.join(", "));
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        });
+        </script>
+        
+        
+        
 </head>
+
+<!-- Section on your homepage where images will be displayed -->
+<div id="lostItemsDisplay">
+    <!-- Uploaded images will appear here -->
+  </div>
+
 <body>
     <header>
         <div class="login-register">
@@ -24,19 +58,19 @@
     <p class="center-text"><b>Welcome to our site to view , claim and post your lost item</b></p>
 
     <div class="container">
-        <div class="section">
+        <div class="section"  id="identification-cards">
             <h2>Identification Cards</h2>
             <p>View and report lost identification cards, Qwetu Hostels Cards , Passports.</p>
         </div>
 
-        <div class="section">
+        <div class="section" id="electronic-devices">
             <h2>Electrical Devices</h2>
             <p>Check for lost phones, laptops, and other electronic devices.</p>
         </div>
         
-        <div class="section">
+        <div class="section" id="personal-items">
             <h2>Personal Items</h2>
-            <p>Find and report missing personal belongings such as bags, keys, or accessories.</p>
+            <p>Find and report missing personal belongings such as bags, waterbottles ,keys, or accessories.</p>
         </div>
     </div>
 </body>
