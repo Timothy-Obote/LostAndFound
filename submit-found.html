@@ -101,13 +101,21 @@
         <label for="description">Description:</label><br>
         <textarea id="description" name="description" rows="4" cols="50" required></textarea><br><br>
 
-        <label for="lostItemImage">Upload Image:</label><br>
-        <input type="file" id="lostItemImage" name="lostItemImage" accept="image/*"><br><br>
-
         <label for="phoneNumber">Phone Number:</label><br>
         <input type="tel" id="phoneNumber" name="phoneNumber" placeholder="e.g., o7-xxxx-xxxx" pattern="[0-9]{2}-[0-9]{4}-[0-9]{4}" required><br><br>
 
         <input type="submit" value="Submit">
+
+        <fieldset>
+            <legend>Image upload</legend>
+            <p>Pick up an image to upload, and press "upload" </p>
+            <form name="form2" enctype="multipart/form-data" method="post" action="upload.php" />
+                <p><input type="file" size="32" name="my_field" value="" /></p>
+                <p class="button"><input type="hidden" name="action" value="image" />
+                <input type="submit" name="Submit" value="upload" /></p>
+            </form>
+        </fieldset>
+        
     </form>
 </body>
 </html>
