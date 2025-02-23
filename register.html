@@ -124,7 +124,7 @@ function switchForm(form) {
     <div class="Form-Accounts">
         <div class="FormAccounts-container">
             <!-- Login Form -->
-            <form id="login-form" class="form active">
+            <form action="login.php" method="POST"form id="login-form" class="form active">
                 <h2>Log In</h2>
                 <label for="username">Username:</label>
                 <input type="text" id="username" placeholder="Username" required />
@@ -136,7 +136,7 @@ function switchForm(form) {
             </form>
     
             <!-- Register Form -->
-            <form id="register-form" class="form hidden">
+            <form action="register.php" method="POST" form id="register-form" class="form hidden">
                 <h2>Register</h2>
                 <label for="register-username">Username:</label>
                 <input type="text" id="register-username" placeholder="Username" required />
