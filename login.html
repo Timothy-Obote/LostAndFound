@@ -149,17 +149,25 @@ function switchForm(form) {
             </form>
     
             <!-- Forgot Password Form -->
-            <form id="forgot-password-form" class="form hidden">
+            <form action="forgotpassword.php" method="POST" id="forgot-password-form" class="form hidden">
                 <h2>Forgot Password</h2>
                 <label for="forgot-email">Email:</label>
-                <input type="email" id="forgot-email" placeholder="Enter your email" required />
-                <label for="set-password">Set New Password:</label>
-                <input type="password" id="set-password" placeholder="Set New Password" required />
-                <label for="confirm-password">Confirm New Password:</label>
-                <input type="password" id="confirm-password" placeholder="Confirm New Password" required />
-                <button type="submit">Reset Password</button>
+                <input type="email" id="forgot-email" name="email" placeholder="Enter your email" required />
+                <button type="submit">Send Reset Link</button>
                 <button type="button" onclick="switchForm('login')">Back to Login</button>
             </form>
+             <!--Reset Password Form -->
+            <form action="resetpassword.php" method="POST" id="reset-password-form" class="form hidden">
+                <h2>Reset Password</h2>
+                <input type="hidden" name="token" value="<?php echo $_GET['token']; ?>">
+                <label for="set-password">Set New Password:</label>
+                <input type="password" name="new_password" id="set-password" placeholder="Set New Password" required />
+                <label for="confirm-password">Confirm New Password:</label>
+                <input type="password" name="confirm_password" id="confirm-password" placeholder="Confirm New Password" required />
+                <button type="submit">Reset Password</button>
+            </form>
+            
+            
         </div>
     </div>
     
