@@ -2,7 +2,7 @@
 $servername = "localhost"; // Change if using an external database
 $username = "root"; // Default MySQL username
 $password = ""; // Default password (empty if using XAMPP)
-$dbname = "lost_and_found_db";
+$dbname = "lostnfound_db";
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
