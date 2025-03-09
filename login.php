@@ -1,13 +1,15 @@
 <?php
+session_start(); // Start the session at the very beginning
 include 'db_connect.php';
 
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Check if username and password exist in the POST request
     if (!empty($_POST['username']) && !empty($_POST['password'])) {
         $username = trim($_POST['username']);
         $password = trim($_POST['password']);
 
-        // Prepare SQL statement to prevent SQL injection
         $sql = "SELECT * FROM users WHERE username = ?";
         $stmt = $conn->prepare($sql);
         
@@ -26,10 +28,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($result->num_rows > 0) {
             $user = $result->fetch_assoc();
             if (password_verify($password, $user['password'])) {
-                session_start();
                 $_SESSION['username'] = $user['username'];
+                $_SESSION['user_id'] = $user['id']; // Store user ID for easier access
 
-                echo "Login successful!";
+                // Redirect to profile.php
+                header("Location: profile.php");
+                exit(); // Stop further execution
             } else {
                 echo "Invalid password.";
             }
