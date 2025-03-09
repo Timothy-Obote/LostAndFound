@@ -33,11 +33,9 @@ if (!$user) {
     <title>Profile</title>
 </head>
 <body>
-    <h2>Welcome, <?php echo htmlspecialchars($user['username']); ?>!</h2>
+    <h2>Welcome , <?php echo htmlspecialchars($user['username']); ?>!</h2>
     <p><strong>Email:</strong> <?php echo htmlspecialchars($user['email']); ?></p>
 
-    <form action="logout.php" method="POST">
-        <button type="submit">Logout</button>
-    </form>
+    
 </body>
 </html>

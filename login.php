@@ -32,7 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $_SESSION['user_id'] = $user['id']; // Store user ID for easier access
 
                 // Redirect to profile.php
-                header("Location: profile.php");
+                header("Location: index_loggedin.html");
                 exit(); // Stop further execution
             } else {
                 echo "Invalid password.";
