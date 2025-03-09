@@ -124,26 +124,22 @@ function switchForm(form) {
     <div class="Form-Accounts">
         <div class="FormAccounts-container">
             <!-- Login Form -->
-            <form action="login.php" method="POST"form id="login-form" class="form active">
-                <h2>Log In</h2>
-                <label for="username">Username:</label>
-                <input type="text" id="username" placeholder="Username" required />
-                <label for="password">Password:</label>
-                <input type="password" id="password" placeholder="Password" required />
-                <button type="submit">Log In</button>
-                <button type="button" onclick="switchForm('register')">Register</button>
-                <button type="button" onclick="switchForm('forgot-password')">Forgot Password?</button>
+            <form action="login.php" method="POST" form id="login-form">
+                <input type="text" id="username" name="username" placeholder="Enter username" required>
+                <input type="password" id="password" name="password" placeholder="Enter password" required>
+                <button type="submit">Login</button>
             </form>
+            
     
             <!-- Register Form -->
             <form action="register.php" method="POST"form id="register-form" class="form hidden">
                 <h2>Register</h2>
-                <label for="register-username">Username:</label>
-                <input type="text" id="register-username" placeholder="Username" required />
+                <label for="username">Username:</label>
+                <input type="text" id="username" placeholder="Username" required />
                 <label for="email">Email:</label>
                 <input type="email" id="email" placeholder="Email" required />
                 <label for="register-password">Password:</label>
-                <input type="password" id="register-password" placeholder="Password" required />
+                <input type="password" id="password" placeholder="Password" required />
                 <button type="submit">Register</button>
                 <button type="button" onclick="switchForm('login')">Back to Login</button>
             </form>

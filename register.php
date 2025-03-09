@@ -6,15 +6,16 @@ ini_set('display_errors', 1);
 include 'db_connect.php'; // Ensure this path is correct
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if (!isset($_POST['username'], $_POST['email'], $_POST['password'])) {
-        die("Missing form fields");
+    if (empty($_POST['username']) || empty($_POST['email']) || empty($_POST['password'])) {
+        die("All form fields are required.");
     }
 
-    $username = $_POST['username'];
-    $email = $_POST['email'];
-    $password = password_hash($_POST['password'], PASSWORD_BCRYPT); // Secure password hashing
+    $username = trim($_POST['username']);
+    $email = trim($_POST['email']);
+    $password = password_hash(trim($_POST['password']), PASSWORD_BCRYPT); // Secure password hashing
 
-    $sql = "INSERT INTO users (username, email, password) VALUES (?, ?, ?)";
+    // Fix: Use backticks (`password`) instead of single quotes
+    $sql = "INSERT INTO users (username, email, `password`) VALUES (?, ?, ?)";
     $stmt = $conn->prepare($sql);
 
     if ($stmt === false) {
