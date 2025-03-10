@@ -5,18 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Welcome</title>
     <link rel="stylesheet" href="style.css">
-    <style>
-        .profile a {
-    color: black; /* Default color */
-    text-decoration: none; /* Removes underline */
-    font-weight: bold;
-}
-
-.profile a:hover {
-    color: rgb(30, 30, 211); /* Change color to blue on hover */
-}
-
-    </style>
 </head>
 <body>
     <header>
@@ -39,7 +27,7 @@
         </div>
 
         <div class="section" id="electronic-devices">
-            <h2>Electrical Devices</h2>
+            <h2>Electronic Devices</h2>
             <p>Check for lost phones, laptops, and other electronic devices.</p>
         </div>
 
@@ -48,5 +36,35 @@
             <p>Find and report missing personal belongings such as bags, water bottles, keys, or accessories.</p>
         </div>
     </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            fetch('display_items.php')
+                .then(response => response.json())
+                .then(data => {
+                    displayItems('identification-cards', data.identification_cards);
+                    displayItems('electronic-devices', data.electronic_devices);
+                    displayItems('personal-items', data.personal_items);
+                })
+                .catch(error => console.error('Error fetching data:', error));
+        });
+
+        function displayItems(sectionId, items) {
+            let section = document.getElementById(sectionId);
+            items.forEach(item => {
+                let div = document.createElement('div');
+                div.classList.add('lost-item');
+                div.innerHTML = `
+                    <h3>${item.itemName}</h3>
+                    <p><strong>Location:</strong> ${item.location}</p>
+                    <p><strong>Date & Time:</strong> ${item.date_time}</p>
+                    <p><strong>Description:</strong> ${item.description}</p>
+                    <img src="${item.image}" alt="Lost Item" width="200">
+                `;
+                section.appendChild(div);
+            });
+        }
+    </script>
+
 </body>
 </html>
