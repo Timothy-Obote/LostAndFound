@@ -18,97 +18,47 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $item_type = htmlspecialchars($_POST['itemType']);
     $itemName = htmlspecialchars($_POST['itemName']);
     $location = htmlspecialchars($_POST['location']);
-    $date_time = htmlspecialchars($_POST['date_time']); // Updated field name
+    $date_time = htmlspecialchars($_POST['dateTime']); // Fixed field name
     $description = htmlspecialchars($_POST['description']);
-    $phone_number = htmlspecialchars($_POST['phone_number']); // Fixed field name
+    $phone_number = htmlspecialchars($_POST['phoneNumber']); // Fixed field name
 
     // File upload handling
     $targetDir = "uploads/";
+    if (!is_dir($targetDir)) mkdir($targetDir, 0777, true);
 
-    // Ensure the directory exists and is writable
-    if (!is_dir($targetDir)) {
-        mkdir($targetDir, 0777, true);
-    }
-    if (!is_writable($targetDir)) {
-        $_SESSION['error_message'] = "Upload directory is not writable.";
-        header("Location: submit_item.php");
-        exit;
-    }
+    $imagePath = null;
+    if (isset($_FILES["itemImage"]) && $_FILES["itemImage"]["error"] === UPLOAD_ERR_OK) {
+        $imageName = time() . "_" . basename($_FILES["itemImage"]["name"]);
+        $targetFilePath = $targetDir . $imageName;
 
-    // Check for file upload errors
-    if ($_FILES["itemImage"]["error"] !== UPLOAD_ERR_OK) {
-        $_SESSION['error_message'] = "File upload error: " . $_FILES["itemImage"]["error"];
-        header("Location: submit_item.php");
-        exit;
-    }
-
-    // Generate a unique file name
-    $imageName = basename($_FILES["itemImage"]["name"]);
-    $targetFilePath = $targetDir . time() . "_" . $imageName;
-    $imageFileType = strtolower(pathinfo($targetFilePath, PATHINFO_EXTENSION));
-
-    // Allowed file types
-    $allowedTypes = ["jpg", "jpeg", "png", "gif"];
-    if (!in_array($imageFileType, $allowedTypes)) {
-        $_SESSION['error_message'] = "Invalid file type. Only JPG, JPEG, PNG & GIF allowed.";
-        header("Location: submit_item.php");
-        exit;
-    }
-
-    // Validate image file
-    if (!is_uploaded_file($_FILES["itemImage"]["tmp_name"])) {
-        $_SESSION['error_message'] = "Invalid file upload.";
-        header("Location: submit_item.php");
-        exit;
-    }
-
-    $check = getimagesize($_FILES["itemImage"]["tmp_name"]);
-    if ($check === false) {
-        $_SESSION['error_message'] = "Uploaded file is not a valid image.";
-        header("Location: submit_item.php");
-        exit;
-    }
-
-    // Move uploaded file
-    if (move_uploaded_file($_FILES["itemImage"]["tmp_name"], $targetFilePath)) {
-        // Insert item into the database
-        $stmt = $conn->prepare("INSERT INTO lost_items (user_id, item_type, itemName, location, description, image, date_time, phone_number) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-        if (!$stmt) {
-            $_SESSION['error_message'] = "Database prepare error: " . $conn->error;
+        if (move_uploaded_file($_FILES["itemImage"]["tmp_name"], $targetFilePath)) {
+            $imagePath = $targetFilePath;
+        } else {
+            $_SESSION['error_message'] = "File upload failed.";
             header("Location: submit_item.php");
             exit;
         }
-
-        $stmt->bind_param("isssssss", $user_id, $item_type, $itemName, $location, $description, $targetFilePath, $date_time, $phone_number);
-
-        if ($stmt->execute()) {
-            $_SESSION['success_message'] = "Item uploaded successfully!";
-        } else {
-            $_SESSION['error_message'] = "Database error: " . $stmt->error;
-        }
-
-        $stmt->close();
-    } else {
-        $_SESSION['error_message'] = "File upload failed. Debugging: " . print_r(error_get_last(), true);
     }
 
-    // Redirect back to the form page
-    header("Location: submit_item.php");
-    exit;
-}
+    // Insert into database
+    $stmt = $conn->prepare("INSERT INTO lost_items (user_id, item_type, itemName, location, description, image, date_time, phone_number) 
+                            VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
 
-$conn->close();
-?>
+    if (!$stmt) {
+        $_SESSION['error_message'] = "Database prepare error: " . $conn->error;
+        header("Location: submit_item.php");
+        exit;
+    }
 
-<!-- Display Success or Error Messages on the Same Page -->
-<?php
-if (isset($_SESSION['success_message'])) {
-    echo "<p style='color: green;'>" . $_SESSION['success_message'] . "</p>";
-    unset($_SESSION['success_message']); // Clear message after displaying
-}
+    $stmt->bind_param("isssssss", $user_id, $item_type, $itemName, $location, $description, $imagePath, $date_time, $phone_number);
 
-if (isset($_SESSION['error_message'])) {
-    echo "<p style='color: red;'>" . $_SESSION['error_message'] . "</p>";
-    unset($_SESSION['error_message']); // Clear message after displaying
+    if ($stmt->execute()) {
+        echo "<p style='color: green; text-align: center; font-size: 20px; font-weight: bold;'>Item uploaded successfully!</p>";
+    } else {
+        echo "<p style='color: red; text-align: center; font-size: 18px;'>Database error: " . $stmt->error . "</p>";
+    }
+
+    $stmt->close();
+    $conn->close();
 }
 ?>
