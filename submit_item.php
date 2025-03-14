@@ -53,7 +53,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt->bind_param("isssssss", $user_id, $item_type, $itemName, $location, $description, $imagePath, $date_time, $phone_number);
 
     if ($stmt->execute()) {
-        echo "<p style='color: green; text-align: center; font-size: 20px; font-weight: bold;'>Item uploaded successfully!</p>";
+        echo "<div style='text-align: center; margin-top: 20px;'>
+                <p style='color: green; font-size: 20px; font-weight: bold;'>Item uploaded successfully!</p>
+                <button onclick='goHome()' style='padding: 10px 20px; font-size: 16px; background-color: #3c99dc; color: white; border: none; border-radius: 5px; cursor: pointer;'>Go to Home</button>
+              </div>
+              <script>
+                  function goHome() {
+                      window.location.href = 'index_loggedin.html';
+                  }
+              </script>";
     } else {
         echo "<p style='color: red; text-align: center; font-size: 18px;'>Database error: " . $stmt->error . "</p>";
     }
