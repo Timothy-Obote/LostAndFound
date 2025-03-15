@@ -31,21 +31,28 @@ $user = $result->fetch_assoc();
 if (!$user) {
     die("User data not found.");
 }
+
+// First letter of username for avatar
+$avatar = strtoupper($user['username'][0]);
 ?>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Profile</title>
     <style>
-        /* General page styling */
         body {
             font-family: Arial, sans-serif;
             background-color: #f4f4f4;
             text-align: center;
             margin: 40px;
+            transition: background-color 0.3s, color 0.3s;
         }
-
-        /* Main profile container */
+        .dark-mode {
+            background-color: #121212;
+            color: white;
+        }
         .container {
             max-width: 400px;
             margin: auto;
@@ -53,15 +60,38 @@ if (!$user) {
             background: white;
             border-radius: 8px;
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            transition: background 0.3s, color 0.3s;
         }
-
-        /* Profile header styling */
-        h1 {
+        .dark-mode .container {
+            background: #333;
+            color: white;
+        }
+        .avatar {
+            width: 80px;
+            height: 80px;
+            background: #007bff;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            font-weight: bold;
+            border-radius: 50%;
+            margin: 10px auto;
+        }
+        .welcome {
             font-size: 24px;
-            color: #333;
+            font-weight: bold;
+            white-space: nowrap;
+            overflow: hidden;
+            display: inline-block;
+            animation: slide 3s linear infinite;
         }
-
-        /* Profile sections (Email, Phone, Last Login) */
+        @keyframes slide {
+            0% { transform: translateX(0); }
+            50% { transform: translateX(10px); }
+            100% { transform: translateX(0); }
+        }
         .profile-section p {
             background: #e9ecef;
             padding: 15px;
@@ -71,17 +101,40 @@ if (!$user) {
             color: #333;
             font-weight: bold;
         }
+        .dark-mode .profile-section p {
+            background: #555;
+            color: white;
+        }
+        .theme-toggle {
+            margin-top: 20px;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            background: #007bff;
+            color: white;
+            border-radius: 5px;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Welcome, <?php echo htmlspecialchars($user['username']); ?></h1>
-
+        <div class="avatar"> <?php echo $avatar; ?> </div>
+        <h1 class="welcome">Welcome, <?php echo htmlspecialchars($user['username']); ?></h1>
         <div class="profile-section">
-            <p><strong>Email:</strong> <?php echo htmlspecialchars($user['email']); ?></p>
-            <p><strong>Phone:</strong> <?php echo htmlspecialchars($user['phone']); ?></p>
-            <p><strong>Last Login:</strong> <?php echo htmlspecialchars($user['last_login']); ?></p>
+            <p><strong>Email</strong> <br> <?php echo htmlspecialchars($user['email']); ?></p>
+            <p><strong>Phone</strong> <br> <?php echo htmlspecialchars($user['phone']); ?></p>
+            <p><strong>Last Login</strong> <br> <?php echo htmlspecialchars($user['last_login']); ?></p>
         </div>
+        <button class="theme-toggle" onclick="toggleTheme()">Toggle Dark Mode</button>
     </div>
+    <script>
+        function toggleTheme() {
+            document.body.classList.toggle('dark-mode');
+            localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light');
+        }
+        if (localStorage.getItem('theme') === 'dark') {
+            document.body.classList.add('dark-mode');
+        }
+    </script>
 </body>
 </html>
