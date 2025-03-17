@@ -105,7 +105,7 @@ $avatar = strtoupper($user['username'][0]);
             background: #555;
             color: white;
         }
-        .theme-toggle {
+        .theme-toggle, .home-button {
             margin-top: 20px;
             padding: 10px 20px;
             border: none;
@@ -113,6 +113,9 @@ $avatar = strtoupper($user['username'][0]);
             background: #007bff;
             color: white;
             border-radius: 5px;
+            display: block;
+            width: 100%;
+            margin-bottom: 10px;
         }
     </style>
 </head>
@@ -121,11 +124,12 @@ $avatar = strtoupper($user['username'][0]);
         <div class="avatar"> <?php echo $avatar; ?> </div>
         <h1 class="welcome">Welcome, <?php echo htmlspecialchars($user['username']); ?></h1>
         <div class="profile-section">
-            <p><strong>Email</strong> <br> <?php echo htmlspecialchars($user['email']); ?></p>
-            <p><strong>Phone</strong> <br> <?php echo htmlspecialchars($user['phone']); ?></p>
-            <p><strong>Last Login</strong> <br> <?php echo htmlspecialchars($user['last_login']); ?></p>
+            <p><strong>Email:</strong> <br> <?php echo htmlspecialchars($user['email']); ?></p>
+            <p><strong>Phone:</strong> <br> <?php echo htmlspecialchars($user['phone']); ?></p>
+            <p><strong>Last Login:</strong> <br> <?php echo htmlspecialchars($user['last_login']); ?></p>
         </div>
         <button class="theme-toggle" onclick="toggleTheme()">Toggle Dark Mode</button>
+        <button class="home-button" onclick="location.href='index_loggedin.html'"> Home</button>
     </div>
     <script>
         function toggleTheme() {
