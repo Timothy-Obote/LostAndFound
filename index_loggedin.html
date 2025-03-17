@@ -5,31 +5,54 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Welcome</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        /* Profile links */
+        .profile a {
+            color: black;
+            text-decoration: none; /* Optional: Removes underline */
+        }
+
+        .profile a:hover {
+            color: blue;
+        }
+
+        /* Ensure the main heading is centered */
+        h1 {
+            text-align: center;
+            font-size: 32px;
+            font-weight: bold;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        /* Ensure all text inside `.container` is black */
+        .container {
+            color: black !important;
+        }
+
+        /* Fix `.section` links to remain black */
+        .section a {
+            color: black !important;
+            text-decoration: none;
+        }
+
+        /* Ensure `.section` text is black */
+        .section h2, .section p {
+            color: black !important;
+        }
+    </style>
 </head>
-<style>
-    .profile a {
-    color: black;
-    text-decoration: none; /* Optional: Removes underline */
-}
-
-.profile a:hover {
-    color: blue;
-}
-.h1 {
-    font-size: 24px;
-    margin: 10px 0;
-    text-align: center;
-    display: block;
-}
-
-
-</style>
 <body>
     <header>
         <div class="profile">
             <a href="profile.php">My Profile</a> | <a href="logout.php">Logout</a>
         </div>
+
+        <!-- Centered `h1` -->
         <h1>LOSE IT | LIST IT | FIND IT</h1>
+
+        <!-- Navigation Bar (kept functional) -->
         <nav class="submit-nav">
             <a href="submit-lost.html">Submit Lost Item</a>
             <a href="submit-found.html">Submit Found Item</a>
@@ -39,28 +62,25 @@
     <p class="center-text"><b>Welcome to our site to view, claim, and post your lost item</b></p>
 
     <div class="container">
-        <div class="section" >
+        <div class="section">
             <a href="identification_cards.php">
                 <h2>Identification Cards</h2>
-            <p>View and report lost identification cards, Qwetu Hostels Cards, Passports.</p>
+                <p>View and report lost identification cards, Qwetu Hostels Cards, Passports.</p>
             </a>
-            
         </div>
 
-        <div class="section" >
+        <div class="section">
             <a href="electronics.php">
                 <h2>Electronic Devices</h2>
                 <p>Check for lost phones, laptops, and other electronic devices.</p>
             </a>
-
         </div>
 
-        <div class="section" >
+        <div class="section">
             <a href="personal_items.php">
                 <h2>Personal Items</h2>
                 <p>Find and report missing personal belongings such as bags, water bottles, keys, or accessories.</p>
             </a>
-            
         </div>
     </div>
 
@@ -92,6 +112,5 @@
             });
         }
     </script>
-
 </body>
 </html>
